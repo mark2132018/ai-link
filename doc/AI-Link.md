@@ -32,7 +32,7 @@ AI-LINK is a Byzantine-Robust Circuit designed to ensure privacy and data sovere
    The TEE decrypts the local model and verifies it against the hash submitted to the blockchain. This verification step ensures the model’s integrity.
 
 7. **Step 7: Perform Cosine Similarity Check**  
-   The TEE performs a cosine similarity check between the local model and the global model. This check ensures that the local model update is not significantly different or malicious.
+   The TEE performs a cosine similarity check between the local model and the global model. This check ensures that the local model update is not significantly different or malicious (Byzantine-Robust).
 
 8. **Step 8: Respond Valid/Invalid to Point 5**  
    The TEE responds to the server, indicating whether the local model is valid or not based on the similarity check
