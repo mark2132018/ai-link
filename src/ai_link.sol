@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.3;
+pragma solidity ^0.8.28;
 
 contract AILink {
-    struct ModelHash {
-        string modelHash;
-        uint256 round;
-    }
-
-    mapping(address => ModelHash[]) public localModelHashes;
+    // address > round > hash
+    mapping(address => mapping(uint256 => string)) public localModelHashes;
 
     mapping(uint256 => string) public globalModelHashes;
 
@@ -16,7 +12,7 @@ contract AILink {
     event GlobalModelSubmitted(string modelHash, uint256 round);
 
     function submitLocalModelHash(string memory _modelHash, uint256 _round) public {
-        localModelHashes[msg.sender].push(ModelHash(_modelHash, _round));
+        localModelHashes[msg.sender][_round] = _modelHash;
         emit LocalModelSubmitted(msg.sender, _modelHash, _round);
     }
 
@@ -25,11 +21,15 @@ contract AILink {
         emit GlobalModelSubmitted(_modelHash, _round);
     }
 
-    function getLocalModelHashes(address _client) public view returns (ModelHash[] memory) {
-        return localModelHashes[_client];
+    function getLocalModelHashAtRound(address _client, uint256 _round) public view returns (string memory) {
+        string memory hash = localModelHashes[_client][_round];
+        require(bytes(hash).length > 0, "Model hash not found for the given round.");
+        return hash;
     }
 
     function getGlobalModelHash(uint256 _round) public view returns (string memory) {
-        return globalModelHashes[_round];
+        string memory hash = globalModelHashes[_round];
+        require(bytes(hash).length > 0, "Global model hash not found for the given round.");
+        return hash;
     }
 }
