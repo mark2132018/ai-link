@@ -16,7 +16,7 @@ AI-LINK is a Byzantine-Robust Circuit designed to ensure privacy and data sovere
 5. **Transparent Model Evolution**: We'll log all model updates and verifications on the blockchain to ensure transparency and traceability throughout the hackathon.
 
 ## Architecture
-![Architecture](AI-LINK_Architecture_Hackathon.png)
+![Architecture](doc/AI-LINK_Architecture_Hackathon.png)
 
 ## Schedule
 
