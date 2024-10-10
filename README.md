@@ -25,5 +25,5 @@ Kwuaint Lee, Chunshu Dai, Mark Liu
 
 ## Material for Demo
 1. Demo Video [link to Youtube]
-2. PPT [link to google doc]
-3. Website: https://chunshudai2001.wixsite.com/my-site-6
+2. PPT [https://docs.google.com/presentation/d/1EbokU6l0DUOa4j9J2_cC8p8TWP2Qci96s1w2Mj8Z_7E/edit?usp=sharing]
+3. Website: [https://chunshudai2001.wixsite.com/ai-link]
