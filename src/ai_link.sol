@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.3;
 
 contract AILink {
     // address > round > hash
-    mapping(address => mapping(uint256 => string)) public localModelHashes;
+    mapping(address => mapping(uint256 => string)) private localModelHashes;
 
-    mapping(uint256 => string) public globalModelHashes;
+    mapping(uint256 => string) private globalModelHashes;
 
     event LocalModelSubmitted(address indexed client, string modelHash, uint256 round);
 
