@@ -34,8 +34,8 @@ contract AILink {
         _;
     }
 
-    modifier isValidSha256(string memory _modelHash) {
-        require(bytes(_modelHash).length == 64, "Invalid SHA-256 hash length.");
+    modifier isValidKeccak256(string memory _modelHash) {
+        require(bytes(_modelHash).length == 64, "Invalid Keccak256 hash length.");
         _;
     }
 
@@ -70,12 +70,12 @@ contract AILink {
         emit ClientDeregistered(_client);
     }
 
-    function submitLocalModelHash(string memory _modelHash, uint256 _round) public onlyRegisteredClient isValidSha256(_modelHash) {
+    function submitLocalModelHash(string memory _modelHash, uint256 _round) public onlyRegisteredClient isValidKeccak256(_modelHash) {
         localModelHashes[msg.sender][_round] = _modelHash;
         emit LocalModelSubmitted(msg.sender, _modelHash, _round);
     }
 
-    function submitGlobalModelHash(string memory _modelHash, uint256 _round) public onlyServer isValidSha256(_modelHash) {
+    function submitGlobalModelHash(string memory _modelHash, uint256 _round) public onlyServer isValidKeccak256(_modelHash) {
         globalModelHashes[_round] = _modelHash;
         emit GlobalModelSubmitted(_modelHash, _round);
     }
