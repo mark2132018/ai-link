@@ -76,9 +76,14 @@ contract AILink {
     }
 
     // Constructor
-    constructor(address _admin, address _server) {
+    constructor(address _admin, address _server, uint256 _start_round, uint256 _iterations) {
         admin = _admin;
         server = _server;
+
+        start_round = _start_round;
+        current_round = _start_round;
+
+        iterations = _iterations;   
     }
 
     // Functions
