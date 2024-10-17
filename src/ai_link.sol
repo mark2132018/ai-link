@@ -10,8 +10,16 @@ contract AILink {
     mapping(address => mapping(uint256 => string)) private localModelHashes;
     mapping(uint256 => string) private globalModelHashes;
 
+    uint256 private start_round;
+    uint256 private iterations; // number of iterations starting from start_round to start_round + iterations.
+    uint256 private current_round; // always point to current round between start_round and start_round + iterations
+
     // Events
-    event LocalModelSubmitted(address indexed client, string modelHash, uint256 round);
+    event LocalModelSubmitted(
+        address indexed client,
+        string modelHash,
+        uint256 round
+    );
     event GlobalModelSubmitted(string modelHash, uint256 round);
     event ClientRegistered(address indexed client);
     event ClientDeregistered(address indexed client);
@@ -30,12 +38,40 @@ contract AILink {
     }
 
     modifier onlyRegisteredClient() {
-        require(registeredClients[msg.sender], "Access restricted to registered clients.");
+        require(
+            registeredClients[msg.sender],
+            "Access restricted to registered clients."
+        );
         _;
     }
 
-    modifier isValidKeccak256(string memory _modelHash) {
-        require(bytes(_modelHash).length == 64, "Invalid Keccak256 hash length.");
+    modifier isValidSha256(string memory _modelHash) {
+        require(bytes(_modelHash).length == 64, "Invalid SHA-256 hash length.");
+        _;
+    }
+
+    modifier isValidRound(uint256 _round) {
+        require(
+            _round >= start_round && _round < start_round + iterations,
+            "Round is out of valid range"
+        );
+        _;
+    }
+
+    modifier isValidStartRound(uint256 _start_round) {
+        require(
+            _start_round == current_round &&
+                _start_round == start_round + iterations,
+            "The new start round must be the next round after the previous set of iterations."
+        );
+        _;
+    }
+
+    modifier hashNotExists(address _client, uint256 _round) {
+        require(
+            bytes(localModelHashes[_client][_round]).length == 0,
+            "Hash already exists for this round"
+        );
         _;
     }
 
@@ -47,7 +83,10 @@ contract AILink {
 
     // Functions
     function transferAdmin(address _newAdmin) public onlyAdmin {
-        require(_newAdmin != address(0), "New admin cannot be the zero address.");
+        require(
+            _newAdmin != address(0),
+            "New admin cannot be the zero address."
+        );
         emit AdminTransferred(admin, _newAdmin);
         admin = _newAdmin;
     }
@@ -70,25 +109,80 @@ contract AILink {
         emit ClientDeregistered(_client);
     }
 
-    function submitLocalModelHash(string memory _modelHash, uint256 _round) public onlyRegisteredClient isValidKeccak256(_modelHash) {
+    function submitLocalModelHash(
+        string memory _modelHash,
+        uint256 _round
+    )
+        public
+        onlyRegisteredClient
+        isValidSha256(_modelHash)
+        isValidRound(_round)
+        hashNotExists(msg.sender, _round)
+    {
         localModelHashes[msg.sender][_round] = _modelHash;
         emit LocalModelSubmitted(msg.sender, _modelHash, _round);
     }
 
-    function submitGlobalModelHash(string memory _modelHash, uint256 _round) public onlyServer isValidKeccak256(_modelHash) {
+    function submitGlobalModelHash(
+        string memory _modelHash,
+        uint256 _round
+    ) public onlyServer isValidSha256(_modelHash) isValidRound(_round) {
+        require(
+            bytes(globalModelHashes[_round]).length == 0,
+            "Global model hash already exists for this round"
+        );
         globalModelHashes[_round] = _modelHash;
+
+        // Increment the current round
+        current_round++;
+
         emit GlobalModelSubmitted(_modelHash, _round);
     }
 
-    function getLocalModelHashAtRound(address _client, uint256 _round) public view returns (string memory) {
+    function getLocalModelHashAtRound(
+        address _client,
+        uint256 _round
+    ) public view returns (string memory) {
         string memory hash = localModelHashes[_client][_round];
-        require(bytes(hash).length > 0, "Model hash not found for the given round.");
+        require(
+            bytes(hash).length > 0,
+            "Model hash not found for the given round."
+        );
         return hash;
     }
 
-    function getGlobalModelHash(uint256 _round) public view returns (string memory) {
+    function getGlobalModelHash(
+        uint256 _round
+    ) public view returns (string memory) {
         string memory hash = globalModelHashes[_round];
-        require(bytes(hash).length > 0, "Global model hash not found for the given round.");
+        require(
+            bytes(hash).length > 0,
+            "Global model hash not found for the given round."
+        );
         return hash;
+    }
+
+    function setStartRound(uint256 _startRound) public onlyAdmin isValidStartRound(_startRound){
+        start_round = _startRound;
+    }
+
+    function getStartRound() public view returns (uint256) {
+        return start_round;
+    }
+
+    function setIterations(uint256 _iterations) public onlyAdmin {
+        iterations = _iterations;
+    }
+
+    function getIterations() public view returns (uint256) {
+        return iterations;
+    }
+
+    function setCurrentRound(uint256 _currentRound) private {
+        current_round = _currentRound;
+    }
+
+    function getCurrentRound() public view returns (uint256) {
+        return current_round;
     }
 }
