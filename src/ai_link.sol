@@ -76,14 +76,19 @@ contract AILink {
     }
 
     // Constructor
-    constructor(address _admin, address _server, uint256 _start_round, uint256 _iterations) {
+    constructor(
+        address _admin,
+        address _server,
+        uint256 _start_round,
+        uint256 _iterations
+    ) {
         admin = _admin;
         server = _server;
 
         start_round = _start_round;
         current_round = _start_round;
 
-        iterations = _iterations;   
+        iterations = _iterations;
     }
 
     // Functions
@@ -167,7 +172,16 @@ contract AILink {
         return hash;
     }
 
-    function setStartRound(uint256 _startRound) public onlyAdmin isValidStartRound(_startRound){
+    function doesLocalModelHashExist(
+        address _client,
+        uint256 _round
+    ) public view returns (bool) {
+        return bytes(localModelHashes[_client][_round]).length != 0;
+    }
+
+    function setStartRound(
+        uint256 _startRound
+    ) public onlyAdmin isValidStartRound(_startRound) {
         start_round = _startRound;
     }
 
