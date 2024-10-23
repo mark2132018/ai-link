@@ -53,3 +53,4 @@ Kwuaint Lee, Chunshu Dai, Mark Liu
 1. Demo Video [link to Youtube]
 2. PPT [https://docs.google.com/presentation/d/1EbokU6l0DUOa4j9J2_cC8p8TWP2Qci96s1w2Mj8Z_7E/edit?usp=sharing]
 3. Website: [https://chunshudai2001.wixsite.com/ai-link]
+4. White paper: [https://docs.google.com/document/d/1gH5mu9Vj2SpWoAR_g7PFqo9eIwVKlUS3uKzMJIPMt9Q/edit?usp=sharing]
