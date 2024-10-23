@@ -6,12 +6,12 @@ AI-LINK is a Byzantine-Robust Circuit designed to ensure privacy and data sovere
 ### **Components:**
 1. **Clients**: Represent different devices (e.g., phones, tablets, computers, etc) that train models locally on their data.
 2. **Server**: Acts as the central node for aggregating local models into a global model.
-3. **Validation Proxy**: A data integrity checkpoint server that ensures confidentiality and integrity of model exchange.
+3. **Validation Proxy**: A data integrity checkpoint server that ensures confidentiality and integrity of model exchange. (Replace with TEE in the future.)
 4. **Blockchain & Smart Contract**: Provides a decentralized and transparent ledger to store and verify the integrity of model updates.
 5. **CESS Storage**: A decentralized storage to securely store trained models.
 
 ### **Architecture:**
-![Architecture](AI-Link Hackathon.png)
+![Architecture](AI-Link_Hackathon.png)
 
 ### **Process Overview:**
 **1. Train Local Models** 

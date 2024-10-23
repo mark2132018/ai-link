@@ -8,11 +8,10 @@ AI-LINK is a Byzantine-Robust Circuit designed to ensure privacy and data sovere
 - [x] Implement a smart contract to orchestrate AI training schedules and serve as a foundation for models proof of existence.
 - [x] Create an aggregation server that combines local models into a global model.
 - [x] Create a validation proxy server that verifies the models integrity.
-- [ ] On validation proxy server, perform consine similarity check on models submitted.
 - [x] Create a client that performs local training and submits the model to the server.
 
 ## Architecture
-![Architecture](doc/AI-Link Hackathon.png)
+![Architecture](doc/AI-Link_Hackathon.png)
 
 
 ## Team info
