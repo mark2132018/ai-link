@@ -1,5 +1,7 @@
 # AI-Link
 
+![logo](doc/logo.png)
+
 ## Introduction
 AI-LINK is a Byzantine-Robust Circuit designed to ensure privacy and data sovereignty. It leverages smart contracts to connect decentralized storage and computing resources, enabling secure AI training and applications while safeguarding the user's original data from exposure.
 
